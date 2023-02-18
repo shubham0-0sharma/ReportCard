@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.reportcard.reportcard.entity.Grade;
 import com.reportcard.reportcard.entity.Student;
+import com.reportcard.reportcard.exception.GradeNotFoundException;
 import com.reportcard.reportcard.exception.StudentNotFoundException;
 import com.reportcard.reportcard.repository.StudentRepository;
 
@@ -43,4 +45,9 @@ public class StudentServiceImp implements StudentService{
     public void removeStudent(Long id) {
     	studentRepository.deleteById(id);
     }
+    static Student unWrapStudent(Optional<Student> student , Long studentId) { 	    
+    	if (student.isPresent()) return student.get();
+    	else  throw new StudentNotFoundException(studentId);
+        }
+    	
 }

@@ -54,12 +54,8 @@ public class GradeServiceImp implements GradeService {
 	@Override
 	public Grade getGrade(Long studentId, Long courseId){
 		Optional< Grade> grade = gradeRepository.findByStudentIdAndCourseId(studentId, courseId);
-		if (grade.isPresent())
-		return grade.get();
-		else {
-			throw new GradeNotFoundException(studentId, courseId);
-		}
-    
+		return unWrapGrade(grade,studentId,courseId);
+
      }
     @Override
     public void deleteGrade(Long studentId, Long courseId) {
@@ -78,5 +74,9 @@ public class GradeServiceImp implements GradeService {
     public List<Grade> getCourseGrades(Long courseId) {
         return gradeRepository.findByCourseId(courseId);
     }
-
+    
+    static Grade unWrapGrade(Optional<Grade> grade , Long studentId,Long courseId) { 	    
+	if (grade.isPresent()) return grade.get();
+	else  throw new GradeNotFoundException(studentId, courseId);
+    }
 	}
