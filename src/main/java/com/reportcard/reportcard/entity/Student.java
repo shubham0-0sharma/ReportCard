@@ -1,12 +1,28 @@
 package com.reportcard.reportcard.entity;
 
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import java.util.List;
+@Getter
+@Setter
+@RequiredArgsConstructor
+@NoArgsConstructor
+
 @Entity
 @Table(name = "student")
 public class Student {
@@ -14,40 +30,22 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name", nullable = false)
+    
+    @NonNull
+    @Column(name = "name",nullable = false)
     private String name;
+    
+    @NonNull
     @Column(name = "birth_date",nullable = false)
     private LocalDate birthDate;
 
-    public Student(Long id, String name , LocalDate birthDate){
-        this.id = id;
-        this.name = name ;
-        this.birthDate = birthDate;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDate getBirthDate() {
-        return this.birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-    public void setId(Long id){
-        this.id = id;
-    }
-    public long getId(){
-        return this.id;
-    }
-
-    public Student() {
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL) 
+    
+    private List<Grade> grades;
+    @JsonIgnore
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
+    private List<Course> courses;
+    
 
 }

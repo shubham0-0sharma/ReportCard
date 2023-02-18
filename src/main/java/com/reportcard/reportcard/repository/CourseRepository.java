@@ -1,9 +1,12 @@
 package com.reportcard.reportcard.repository;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
 
-public class CourseRepository {
+import com.reportcard.reportcard.entity.Course;
+
+
+
+public interface CourseRepository extends CrudRepository<Course, Long> {
     
 }
