@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.reportcard.reportcard.entity.Course;
 
-import com.reportcard.reportcard.service.CourseServiceImp;
+import com.reportcard.reportcard.service.CourseService;
 
 
 import lombok.AllArgsConstructor;
@@ -23,30 +23,30 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("/course")
 public class CourseController {
-    private CourseServiceImp courseServiceImp;
+    private CourseService courseService;
 	@PostMapping
 		public ResponseEntity<Course> saveCourse(@RequestBody Course course)
 		{
 		
-			return new ResponseEntity<>(courseServiceImp.saveCourse(course),HttpStatus.CREATED);
+			return new ResponseEntity<>(courseService.saveCourse(course),HttpStatus.CREATED);
 		}
 	@GetMapping("/{courseId}")
 	public ResponseEntity<Course> getCourse(@PathVariable Long courseId)
 	{
-		return new ResponseEntity<>(courseServiceImp.getCourse(courseId), HttpStatus.OK);
+		return new ResponseEntity<>(courseService.getCourse(courseId), HttpStatus.OK);
 		
 	}
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<Course>> getCourses()
 	{
-		return new ResponseEntity<>(courseServiceImp.getCourses(), HttpStatus.OK);
+		return new ResponseEntity<>(courseService.getCourses(), HttpStatus.OK);
 		
 	}
 	@DeleteMapping("/{courseId}")
 	public ResponseEntity<HttpStatus> deleteCourse(@PathVariable Long courseId)
 	{
-		courseServiceImp.deleteCourse(courseId);
+		courseService.deleteCourse(courseId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
